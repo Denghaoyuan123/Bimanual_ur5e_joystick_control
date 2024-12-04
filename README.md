@@ -5,15 +5,15 @@
 1. Navigate to the folder:
    ```bash
    cd /home/username/demo_ws
-   - src
-      - Bimanual_Universal_Robots_ur5e_ROS_Driver
+   ```
+   - src/
+      - Bimanual_Universal_Robots_ur5e_ROS_Driver/
         https://github.com/Denghaoyuan123/Bimanual_Universal_Robots_ur5e_ROS_Driver
 
-      - realsense-ros
+      - realsense-ros/
 
-      - This repo 
+      - This repo/ 
         https://github.com/Denghaoyuan123/Bimanual_ur5e_joystick_control
-   ```
 
 2. Open Terminator and start in the following sequence:
 
