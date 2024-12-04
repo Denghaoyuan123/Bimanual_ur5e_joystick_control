@@ -19,12 +19,21 @@ class RobotiqHand():
             self.status()
             time.sleep(0.5)
 
+    # def connect(self, ip, port):
+    #     self.so = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #     self.so.connect((ip, port))
+    #     self._cont = True
+    #     self._sem = threading.Semaphore(1)
+    #     self._heartbeat_th = threading.Thread(target = self._heartbeat_worker)
+    #     self._heartbeat_th.start()
+
     def connect(self, ip, port):
         self.so = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.so.connect((ip, port))
+        self.so.settimeout(10)  # 设置超时时间为10秒
         self._cont = True
         self._sem = threading.Semaphore(1)
-        self._heartbeat_th = threading.Thread(target = self._heartbeat_worker)
+        self._heartbeat_th = threading.Thread(target=self._heartbeat_worker)
         self._heartbeat_th.start()
 
     def disconnect(self):
@@ -49,14 +58,33 @@ class RobotiqHand():
         crc = bytearray(struct.pack('<H', crc_registor))
         return crc
 
-    def send_command(self, command):
-        with self._sem:
-            crc = self._calc_crc(command)
-            data = command + crc
-            self.so.sendall(data)
-            time.sleep(0.001)
-            data = self.so.recv(1024)
-        return bytearray(data)
+    # def send_command(self, command):
+    #     print('send command')
+    #     with self._sem:
+    #         print('send command with sem')
+    #         crc = self._calc_crc(command)
+    #         data = command + crc
+    #         self.so.sendall(data)
+    #         time.sleep(0.001)
+    #         data = self.so.recv(1024)
+    #     return bytearray(data)
+    def send_command(self, command, retries=3):
+        attempt = 0
+        while attempt < retries:
+            try:
+                with self._sem:
+                    crc = self._calc_crc(command)
+                    data = command + crc
+                    print(f"Sending: {data.hex()}")
+                    self.so.sendall(data)
+                    data = self.so.recv(1024)
+                    print(f"Received: {data.hex()}")
+                    return bytearray(data)
+            except socket.timeout as e:
+                print(f"Error sending command, attempt {attempt+1} of {retries}: timed out")
+                attempt += 1
+        print("Command failed after retries.")
+        return None
 
     def status(self):
         command = bytearray(b'\x09\x03\x07\xD0\x00\x03')
@@ -64,15 +92,29 @@ class RobotiqHand():
 
     def reset(self):
         command = bytearray(b'\x09\x10\x03\xE8\x00\x03\x06\x00\x00\x00\x00\x00\x00')
-        return self.send_command(command)
+        print("Sending reset command...")
+        response = self.send_command(command)
+        print("Reset response:", response)
+        return response
 
     def activate(self):
         command = bytearray(b'\x09\x10\x03\xE8\x00\x03\x06\x01\x00\x00\x00\x00\x00')
         return self.send_command(command)
 
+    # def wait_activate_complete(self):
+    #     while True:
+    #         data = self.status()
+    #         if data[5] != 0x00:
+    #             return data[3]
+    #         if data[3] == 0x31 and data[7] < 4:
+    #             return data[3]
+            
     def wait_activate_complete(self):
         while True:
             data = self.status()
+            if data is None:
+                print("No data received, activation incomplete.")
+                return
             if data[5] != 0x00:
                 return data[3]
             if data[3] == 0x31 and data[7] < 4:
