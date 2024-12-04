@@ -4,7 +4,15 @@
 
 1. Navigate to the folder:
    ```bash
-   cd /home/pine/demo_ws
+   cd /home/username/demo_ws
+   - src
+      - Bimanual_Universal_Robots_ur5e_ROS_Driver
+        https://github.com/Denghaoyuan123/Bimanual_Universal_Robots_ur5e_ROS_Driver
+
+      - realsense-ros
+
+      - This repo 
+        https://github.com/Denghaoyuan123/Bimanual_ur5e_joystick_control
    ```
 
 2. Open Terminator and start in the following sequence:
@@ -43,7 +51,7 @@
      roslaunch realsense2_camera rs_aligned_depth2.launch
      ```
 
-   - **Terminal 6**: Start remote control
+   - **Terminal 6**: Start remote control (need to prepare two joysticks)
      ```bash
      roslaunch ur5e_joystick_control ur5e_joystick_control.launch
      ```
