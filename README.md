@@ -8,12 +8,13 @@
    ```
    - src/
       - Bimanual_Universal_Robots_ur5e_ROS_Driver/
-        https://github.com/Denghaoyuan123/Bimanual_Universal_Robots_ur5e_ROS_Driver
+         https://github.com/Denghaoyuan123/Bimanual_Universal_Robots_ur5e_ROS_Driver
 
       - realsense-ros/
+         https://github.com/IntelRealSense/realsense-ros
 
       - This repo/ 
-        https://github.com/Denghaoyuan123/Bimanual_ur5e_joystick_control
+         https://github.com/Denghaoyuan123/Bimanual_ur5e_joystick_control
 
 2. Open Terminator and start in the following sequence:
 
