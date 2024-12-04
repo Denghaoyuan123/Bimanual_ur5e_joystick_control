@@ -16,12 +16,12 @@
     </node>
 
     <!-- UR5e Inverse Kinematics Node for the second robot -->
-    <node name="ur5e_inverse_kinematics2" pkg="ur5e_joystick_control" type="ur5e_inverse_kinematics1.py" output="screen">
+    <node name="ur5e_inverse_kinematics2" pkg="ur5e_joystick_control" type="ur5e_inverse_kinematics_left.py" output="screen">
         <remap from="joy" to="joy2"/>  <!-- Use the second joystick's topic -->
     </node>
 
     <!-- UR5e Inverse Kinematics Node for the first robot -->
-    <node name="ur5e_inverse_kinematics1" pkg="ur5e_joystick_control" type="ur5e_inverse_kinematics.py" output="screen">
+    <node name="ur5e_inverse_kinematics1" pkg="ur5e_joystick_control" type="ur5e_inverse_kinematics_right.py" output="screen">
         <remap from="joy" to="joy1"/> 
     </node>
 
