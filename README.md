@@ -47,8 +47,7 @@
 
    - **Terminal 5**: Start the cameras
      ```bash
-     roslaunch realsense2_camera rs_aligned_depth1.launch
-     roslaunch realsense2_camera rs_aligned_depth2.launch
+     roslaunch realsense2_camera rs_aligned_depth.launch
      ```
 
    - **Terminal 6**: Start remote control (need to prepare two joysticks)
